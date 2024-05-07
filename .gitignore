@@ -1,0 +1,9 @@
+.idea
+.ipynb_checkpoints/
+data/
+docs/
+Lib/
+Scripts/
+.venv/
+pythonProject1/
+pyvenv.cfg
