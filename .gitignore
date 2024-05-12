@@ -3,6 +3,7 @@
 data/
 docs/
 Lib/
+Old/
 Scripts/
 .venv/
 pythonProject1/
