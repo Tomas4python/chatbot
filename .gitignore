@@ -1,6 +1,7 @@
 .idea
 .ipynb_checkpoints/
 data/
+data_dd/
 docs/
 Lib/
 Old/
