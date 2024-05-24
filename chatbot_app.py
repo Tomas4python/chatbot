@@ -1,8 +1,8 @@
 import sys
 import os
-import logging
 import pickle
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -13,9 +13,13 @@ import re
 import unicodedata
 from typing import List, Tuple, Dict
 import customtkinter as ctk
-from tkinter import StringVar, Scrollbar, Text
+from tkinter import StringVar, Text
 import random
 
+
+##################################
+#### GRAPHICAL USER INTERFACE ####
+##################################
 
 # Initialize the customtkinter
 ctk.set_appearance_mode("dark")
@@ -27,7 +31,7 @@ class ChatbotGuiApp(ctk.CTk):
     def __init__(self, model_instance):
         super().__init__()
 
-        # Initialize Seq2Seq Model
+        # Get Seq2Seq Model instance
         self.model = model_instance
 
         # Configure the main window
@@ -39,7 +43,7 @@ class ChatbotGuiApp(ctk.CTk):
         self.main_frame = ctk.CTkFrame(self)
         self.main_frame.pack(fill="both", expand=True)
 
-        # Left part
+        # Left part of the main window
         self.left_frame = ctk.CTkFrame(self.main_frame)
         self.left_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -52,10 +56,6 @@ class ChatbotGuiApp(ctk.CTk):
         self.conversation_text = ctk.CTkTextbox(self.conversation_text_frame)
         self.conversation_text.pack(side="left", fill="both", expand=True)
         self.conversation_text.configure(font=("Arial", self.font_size))
-
-        self.conversation_scrollbar = ctk.CTkScrollbar(self.conversation_text_frame, command=self.conversation_text.yview)
-        self.conversation_scrollbar.pack(side="right", fill="y")
-        self.conversation_text.configure(yscrollcommand=self.conversation_scrollbar.set)
 
         self.message_label = ctk.CTkLabel(self.left_frame, text="   Your message", font=("Helvetica", 18, "bold"))
         self.message_label.pack(pady=5, anchor="w")
@@ -73,7 +73,10 @@ class ChatbotGuiApp(ctk.CTk):
         self.random_button = ctk.CTkButton(self.button_frame, text="Random", command=self.random_message, font=("Helvetica", 18, "bold"))
         self.random_button.pack(side="right", padx=10, pady=10)
 
-        # Right part
+        # Bind the Enter key to the send_message function
+        self.message_entry.bind('<Return>', self.on_enter_key_pressed)
+
+        # Right part of the main window
         self.right_frame = ctk.CTkFrame(self.main_frame)
         self.right_frame.grid(row=0, column=1, sticky="nsew")
 
@@ -85,12 +88,8 @@ class ChatbotGuiApp(ctk.CTk):
         self.random_samples_text_frame.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.random_samples_text = ctk.CTkTextbox(self.random_samples_text_frame, height=15)
+        self.random_samples_text.configure(font=("Arial", self.font_size - 1, "normal"))
         self.random_samples_text.pack(side="left", fill="both", expand=True)
-        self.random_samples_text.configure(font=("Arial", self.font_size))
-
-        self.random_samples_scrollbar = ctk.CTkScrollbar(self.random_samples_text_frame, command=self.random_samples_text.yview)
-        self.random_samples_scrollbar.pack(side="right", fill="y")
-        self.random_samples_text.configure(yscrollcommand=self.random_samples_scrollbar.set)
 
         self.good_examples_label = ctk.CTkLabel(self.right_frame, text="   Good performing examples",
                                                 font=("Helvetica", 18, "bold"))
@@ -100,12 +99,8 @@ class ChatbotGuiApp(ctk.CTk):
         self.good_examples_text_frame.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.good_examples_text = ctk.CTkTextbox(self.good_examples_text_frame, height=15)
+        self.good_examples_text.configure(font=("Arial", self.font_size - 1, "normal"))
         self.good_examples_text.pack(side="left", fill="both", expand=True)
-        self.good_examples_text.configure(font=("Arial", self.font_size))
-
-        self.good_examples_scrollbar = ctk.CTkScrollbar(self.good_examples_text_frame, command=self.good_examples_text.yview)
-        self.good_examples_scrollbar.pack(side="right", fill="y")
-        self.good_examples_text.configure(yscrollcommand=self.good_examples_scrollbar.set)
 
         # Configure grid weights to ensure proper resizing
         self.main_frame.grid_rowconfigure(0, weight=1)
@@ -114,6 +109,45 @@ class ChatbotGuiApp(ctk.CTk):
 
         # Insert start message
         self.append_to_conversation("Chatbot is ready! Type 'exit' to end the conversation.\n")
+
+        # Fill in 'Random samples from input dataset' and 'Good performing examples' text boxes
+        self.good_performing_examples = [
+            'Good morning, Ladies!',
+            'Did you drink a lot yesterday?',
+            'What sports do you like?',
+            'Do you believe in God?',
+            'Is she very beautiful?',
+            'Are you going by train?',
+            'How long will your trip take?',
+            'Why do you have a headache?',
+            'May I help you?',
+            'Do you have a lot of work?',
+            'I love You!',
+            'I hate you',
+            'Can you help me with my homework?',
+            'Where are you from?',
+            'Tell me a story',
+            "What's the meaning of life?",
+            "What's your favorite hobby?",
+            "You will recover after a good night 's sleep'"
+        ]
+        self.random_samples_dataset = self.load_dataframe_samples()
+        self.append_to_random_samples(text for text in self.random_samples_dataset)
+        self.append_to_good_examples(text for text in self.good_performing_examples)
+
+        self.all_samples_for_random_button = self.good_performing_examples + self.random_samples_dataset
+
+
+    def load_dataframe_samples(self) -> list:
+        # Loading the DataFrame
+        data_dir = os.path.join(os.getcwd(), 'data')
+        file_path_parquet = os.path.join(data_dir, 'training_df_dd_tf210.parquet')
+        training_data_final = pd.read_parquet(file_path_parquet)
+
+        # Take 15 samples from the 'input' column
+        samples = training_data_final['input'].sample(n=15).tolist()  # Convert to list
+        return samples
+
 
     def format_response(self, response: str) -> str:
         response = response.strip()
@@ -149,10 +183,14 @@ class ChatbotGuiApp(ctk.CTk):
             self.append_to_conversation(f"<Argama>:   {formatted_response}")
             self.append_to_conversation(f"<Beamara>:   {formatted_response_2}")
 
+    def on_enter_key_pressed(self, event):
+        self.send_message()
+
     def random_message(self):
         # Functionality for random button
-        random_message = "This is a random message."
-        self.append_to_random_samples(random_message)
+        random_message = random.choice(self.all_samples_for_random_button)
+        self.message_entry.delete(0, 'end')
+        self.message_entry.insert(0, random_message)
 
     def append_to_conversation(self, text: str):
         first_word = text.split()[0]
@@ -186,13 +224,19 @@ class ChatbotGuiApp(ctk.CTk):
 
         self.conversation_text.yview_moveto(1.0)
 
-    def append_to_random_samples(self, text: str):
-        self.random_samples_text.insert("end", text + "\n")
+    def append_to_random_samples(self, samples):
+        for text in samples:
+            self.random_samples_text.insert("end", self.format_response(text) + "\n")
         self.random_samples_text.yview_moveto(1.0)
 
-    def append_to_good_examples(self, text: str):
-        self.good_examples_text.insert("end", text + "\n")
+    def append_to_good_examples(self, samples):
+        for text in samples:
+            self.good_examples_text.insert("end", text + "\n")
         self.good_examples_text.yview_moveto(1.0)
+
+##################################
+####         THE MODEL        ####
+##################################
 
 class Seq2SeqModel:
     """Class for Sequence2Sequence Encoder-Decoder conversation generation model and its operations"""
