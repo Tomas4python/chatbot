@@ -9,7 +9,7 @@ key components:
 2. **Model Development**: Creating a seq2seq bidirectional encoder-decoder model to generate responses.
 3. **Chatbot Application**: Developing a real-time Python chatbot application utilizing the trained model, with
 a custom GUI built using `customtkinter`.
-4. **Project Delivery**: Deploying the entire project on GitHub for accessibility and collaboration.
+4. **Project Delivery**: Deploying the entire project on GitHub for accessibility.
 
 The main objective is to create a functional and interactive chatbot capable of generating coherent and contextually
 appropriate responses. This involves both the technical aspects of machine learning model training and the practical
@@ -304,8 +304,8 @@ This setup was chosen to ensure compatibility with the available hardware and to
 The model was trained using the following configuration:
 - **Input Data**: The model takes both encoder input sequences and decoder input sequences.
 - **Output Data**: The model predicts the next token in the sequence for each timestep.
-- **Batch Size**: 128
-- **Epochs**: 4
+- **Batch Size**: 64
+- **Epochs**: 10
 - **Validation Split**: 0.1 (10% of the data is used for validation to monitor the model's performance and detect overfitting)
 - **Optimizer**: Adam with a learning rate of 0.001
 - **Loss Function**: Sparse categorical crossentropy
