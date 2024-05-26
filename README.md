@@ -8,15 +8,13 @@ and the practical aspects of GUI application development.
 
 ## Project Components
 
-1. **Data processing** - Exploratory Data Analysis (EDA), data preprocessing and model development in Jupyter
-Lab notebook:  
-- `development.ipynb`.
-2. **Chatbot application development** and testing in a Python-based notebook:  
-- `chatbot_app.ipynb`.
-3. **Conversion to a standalone Python script** for a fully working GUI chatbot application:
-- `chatbot_app.py`.
-4. **Sample files** used for initial stages of preprocessing, training of different models, and in different
-environments, located in the `samples/` folder.
+1. `development.ipynb` - **Data processing**: Exploratory Data Analysis, data preprocessing and model development in Jupyter Lab notebook.
+2. `chatbot_app.ipynb` - **Chatbot application development**: Development and testing in a Jupyter Lab notebook.
+3. `chatbot_app.py` - **Conversion to a standalone Python script**: Fully working GUI chatbot application.
+4. `samples/` - **Sample files**: Used for initial stages of preprocessing, training of different models, and in different environments.
+5. `requirements.txt` - **Dependencies**: Lists all the Python packages and their versions required to run Chatbot application.
+6. `DEVELOPMENT_PAPER.md` - **Development documentation**: Detailed description of the development process and any relevant findings.
+
 
 ## Key Features
 
@@ -27,17 +25,17 @@ for easy input testing.
 
 ## Requirements
 
-- **Python Version**: 3.10.14
+- **Python Version**: 3.10.11-14
 - **TensorFlow Version**: 2.10.0
 - **TensorFlow Keras Version**: 2.10.0
 
-The application was tested and runs on several newer environments as well.
 
 ## Installation Instructions
 
 Follow these steps to set up the application locally:
 
-1. **Ensure you have Python 3.10 installed** on your system. You can download it from [Python's official website](https://www.python.org/downloads/).
+1. **Ensure you have Python 3.10 installed** on your system (this is important, because TensorFlow 2.10.0 is
+available to download only on Python 3.10). You can download Python 3.10 from [Python's official website](https://www.python.org/downloads/).
 2. **Download the project** from its [GitHub repository](https://github.com/Tomas4python/chatbot) and extract it into a new folder or use GIT to clone the project:
    - Open **Command Prompt** or **PowerShell**.
    - Navigate to the project folder:
@@ -50,9 +48,9 @@ Follow these steps to set up the application locally:
      ```
 
 3. **Set Up a Virtual Environment**:
-   - Navigate to the project folder:
+   - Navigate to the 'chatbot' folder:
      ```
-     cd path\to\project\folder
+     cd path\to\project\folder\chatbot
      ```
    - Create a new virtual environment named `venv`:
      ```
@@ -64,16 +62,16 @@ Follow these steps to set up the application locally:
      ```
 
 4. **Install Dependencies**:
-   - Navigate to the project folder:
+   - In activated virtual environment (venv) navigate to 'chatbot' folder:
      ```
-     cd path\to\project\folder
+     cd path\to\project\folder\chatbot
      ```
    - Install all required dependencies:
      ```
      pip install -r requirements.txt
      ```
 
-By following these steps, you'll have a clean and isolated Python environment for running and testing this project.
+By following these steps, you'll have a clean and isolated Python environment for running and testing Chatbot App.
 
 ## Launching the Application
 
@@ -95,14 +93,23 @@ These notebooks also run in Google Colab.
 To set up a Jupyter Lab or Jupyter Notebook environment in Anaconda, create a new environment using the
 following commands in Anaconda Command Promt or Power Shell:
 ```
-conda create -n py310 python=3.10
-conda activate py310
-conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+conda create -n py310_tf210 python=3.10
+conda activate py310_tf210
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 # Choose this if you have cuda driver installed
+python -m pip install chardet charset_normalizer
 python -m pip install "tensorflow==2.10"
 python -m pip install pyarrow
 python -m pip install fastparquet
+python -m pip install scikit-learn
+python -m pip install matplotlib
+python -m pip install nltk
+python -m pip install spacy
+python -m spacy download en_core_web_sm
 ```
-This installation ensures the possibility of using the GPU.
+After successful installation go to Anaconda Navigator, choose py310_tf210 environment
+and choose Jupyter Lab or Jupyter Notebook which one you appreciate more.
+This installation ensures the possibility of using the GPU, if you have NVIDIA GPU and CUDA drivers installed.
+How to install CUDA - google for "CUDA Installation Guide" and "CUDA Toolkit Downloads".
 
 ## Usage
 
