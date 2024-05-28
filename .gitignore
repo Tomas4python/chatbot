@@ -1,9 +1,7 @@
 .idea
 .ipynb_checkpoints/
-docs/
 Lib/
 old/
-data_alternative/
 Scripts/
 .venv/
 pythonProject1/
