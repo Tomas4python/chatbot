@@ -263,6 +263,8 @@ class Seq2SeqModel:
         # Define model parameters
         self.latent_dim = 200
         self.num_tokens = len(self.tokenizer.word_index) + 1
+        # self.num_tokens = self.tokenizer.num_words + 1  # Is used for 'data_alternative'
+
         self.learning_rate = 0.001
 
         # Define encoder
