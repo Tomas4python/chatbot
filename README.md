@@ -11,7 +11,7 @@ and the practical aspects of GUI application development.
 1. `development.ipynb` - **Data processing**: Exploratory Data Analysis, data preprocessing and model development in Jupyter Lab notebook.
 2. `chatbot_app.ipynb` - **Chatbot application development**: Development and testing in a Jupyter Lab notebook.
 3. `chatbot_app.py` - **Conversion to a standalone Python script**: Fully working GUI chatbot application.
-4. `samples/` - **Sample files**: Used for initial stages of preprocessing, training of different models, and in different environments.
+4. `samples/` - **Sample notebooks**: Used for initial stages of preprocessing, training of different models, and in different environments.
 5. `requirements.txt` - **Dependencies**: Lists all the Python packages and their versions required to run Chatbot application.
 6. `DEVELOPMENT_PAPER.md` - **Development documentation**: Detailed description of the development process and any relevant findings.
 
@@ -35,7 +35,7 @@ for easy input testing.
 Follow these steps to set up the application locally:
 
 1. **Ensure you have Python 3.10 installed** on your system (this is important, because TensorFlow 2.10.0 is
-available to download only on Python 3.10). You can download Python 3.10 from [Python's official website](https://www.python.org/downloads/).
+available to download only with Python 3.10). You can download Python 3.10 from [Python's official website](https://www.python.org/downloads/).
 2. **Download the project** from its [GitHub repository](https://github.com/Tomas4python/chatbot) and extract it into a new folder or use GIT to clone the project:
    - Open **Command Prompt** or **PowerShell**.
    - Navigate to the project folder:

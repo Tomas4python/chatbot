@@ -52,7 +52,7 @@ The dataset is human-written, resulting in less noise compared to other datasets
 communication, covering a variety of everyday topics. Additionally, the dataset is manually labeled with communication
 intention and emotion information, providing valuable context for training dialog systems.
 
-**Source:**
+**Data Source:**
 - [DailyDialog Dataset on Hugging Face](https://huggingface.co/datasets/daily_dialog/tree/refs%2Fconvert%2Fparquet/default)
 
 ## Data Preprocessing
@@ -95,16 +95,16 @@ Only data from `utterances.jsonl` is used. Essential elements:
 Pandas is used for data manipulation, filtering, and analysis.
 
 #### Data Cleaning
-Keep necessary fields: `id`, `conversation_id`, `reply_to`, and `text`.
+Keeping only necessary fields: `id`, `conversation_id`, `reply_to`, and `text`.
 
 #### Conclusion
 The dataset is clean and well-structured. Each conversation is correctly linked and formatted.
 
 After pairing inputs with responses, 221,616 entries were obtained for training. However, due to issues with the
 vocabulary — specifically, the presence of a large amount of slang and uncommon words within the last 10,000 entries
-of a 47,000-word dictionary, making it particularly dirty — a cleaner dataset was chosen.
+of a 47,000-word dictionary, making it particularly dirty — a cleaner dataset was chosen for interim development.
 This decision was driven by the need for more consistent and reliable language data to improve the chatbot's
-performance and accuracy in generating human-like responses. <br>
+performance and accuracy in generating human-like responses as well to gain training speed. <br>
 ![Movie Dialogs words at 10K](images/01_movies_dataset_last_10K.png)
 
 ### DailyDialog
@@ -442,7 +442,7 @@ notebook into a separate notebook. This included:
 - Model and weights
 - Response generation functions
 
-### Building the UI
+### Building Minimal Working Example
 
 1. **Coding a Simple UI**:
     - A simple user interface (UI) was developed to facilitate interaction with the model.
@@ -466,3 +466,42 @@ notebook into a separate notebook. This included:
 3. **Enhancing the GUI with customtkinter**:
     - The GUI was further developed using `customtkinter` to provide a more polished and user-friendly interface.
     - Sample interactions were added to the GUI to demonstrate the chatbot's capabilities and facilitate user testing.
+
+## Project Delivery: Deploying the Entire Project on GitHub
+
+To ensure the project is accessible and easy to use, the entire project was deployed on GitHub with careful
+consideration to organization and documentation.
+
+### Steps for Deployment
+
+1. **Creating a GitHub Repository**:
+    - A separate GitHub repository was created to host the project files.
+
+2. **File Selection and Naming**:
+    - Files were carefully selected to include only the necessary components for the application and model.
+    - Each file was thoughtfully named to reflect its purpose and content, ensuring clarity and ease of navigation.
+
+3. **Requirements File**:
+    - A `requirements.txt` file was created to list all dependencies required for the application.
+    - This ensures that users can easily set up their environment with the necessary packages.
+
+4. **README.md**:
+    - A comprehensive `README.md` file was created, providing detailed instructions on installation and launching
+   the application.
+    - This document serves as the first point of reference for users, guiding them through the setup process.
+
+5. **Testing the Setup**:
+    - The download process, environment setup for the application, and notebooks were carefully tested to ensure
+   everything works seamlessly.
+    - This step ensures that users will not encounter issues when setting up the project on their systems.
+
+6. **Finalizing the Development Paper**:
+    - The development paper (`development_paper.md`) was completed, documenting the entire project from inception
+   to delivery.
+    - This paper provides an in-depth look at the project's development process, decisions made, and lessons learned.
+
+7. **Making the Repository Public**:
+    - The GitHub repository was made public, making the project accessible to anyone interested in it.
+
+By following these steps, the project is well-prepared for public use, ensuring a smooth and user-friendly
+experience for anyone interested in exploring the chatbot application.

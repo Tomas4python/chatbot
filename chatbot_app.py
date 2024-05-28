@@ -153,7 +153,7 @@ class ChatbotGuiApp(ctk.CTk):
         response = response.strip()
         if response:
             if response[-1] not in ".!?":
-                punctuation = random.choices([".", "!", "?", "..."], [70, 10, 10, 10])[0]
+                punctuation = random.choices([".", "!", " :)", "..."], [70, 10, 10, 10])[0]
                 response += punctuation
         return response.capitalize()
 
